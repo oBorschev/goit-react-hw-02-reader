@@ -11,64 +11,59 @@ export default class Reader extends Component {
     text: propTypes.string,
   };
   state = {
-    indexItem: 0,
-    startPosition: this.props.items[0],
-    currentPosition: this.props.items[0],
-    numOfPublications: this.props.items.length - 1,
+    indexCurrentPage: 1,
+  };
+
+  control = {
+    numOfPublications: this.props.items.length,
     disabledButtonNext: false,
     disabledButtonPrev: true,
   };
-  test = () => {
-    console.log(this.props.items);
-    console.log(this.state.currentPosition);
-  };
 
   handleNextPublication = () => {
-    this.setState({ disabledButtonPrev: false });
-    if (this.state.indexItem + 1 >= this.state.numOfPublications) {
-      this.setState({ disabledButtonNext: true });
+    this.control.disabledButtonPrev = false;
+    if (this.state.indexCurrentPage === this.control.numOfPublications - 1) {
+      this.control.disabledButtonNext = true;
+      console.log(this.state.indexCurrentPage);
     }
+    this.setState(state => ({
+      indexCurrentPage: state.indexCurrentPage + 1,
+    }));
+  };
 
-    this.setState(state => ({
-      indexItem: state.indexItem + 1,
-      currentPosition: this.props.items[this.state.indexItem],
-    }));
-  };
   handlePrevPublication = () => {
-    this.setState({ disabledButtonNext: false });
-    if (this.state.indexItem - 1 === 0) {
-      this.setState({ disabledButtonPrev: true });
+    this.control.disabledButtonNext = false;
+    if (this.state.indexCurrentPage - 1 === 0) {
+      this.control.disabledButtonPrev = true;
     }
     this.setState(state => ({
-      indexItem: state.indexItem - 1,
-      currentPosition: this.props.items[this.state.indexItem],
+      indexCurrentPage: state.indexCurrentPage - 1,
     }));
-  };
-  handleStateOfButton = () => {
-    if (this.state.indexItem === 0) {
-      this.setState({ disabledButtonPrev: true });
-    } else {
-      this.setState({ disabledButtonPrev: false });
-    }
   };
 
   render() {
+    const { indexCurrentPage } = this.state;
+    const {
+      disabledButtonPrev,
+      disabledButtonNext,
+      numOfPublications,
+    } = this.control;
     return (
       <div className="reader">
         <Controls
           onNextPublication={this.handleNextPublication}
           onPrevPublication={this.handlePrevPublication}
-          stateBtnNext={this.state.disabledButtonNext}
-          stateBtnPrev={this.state.disabledButtonPrev}
+          stateBtnPrev={disabledButtonPrev}
+          stateBtnNext={disabledButtonNext}
         />
         <Counter
-          currentIndex={this.state.indexItem}
-          lengthOfPublications={this.state.numOfPublications}
+          currentIndex={indexCurrentPage}
+          lengthOfPublications={numOfPublications}
         />
 
         <Publication
-          publicationTitle={this.props.items[this.state.indexItem].title}
-          publicationText={this.props.items[this.state.indexItem].text}
+          publicationTitle={this.props.items[indexCurrentPage - 1].title}
+          publicationText={this.props.items[indexCurrentPage - 1].text}
         />
       </div>
     );
