@@ -15,50 +15,32 @@ export default class Reader extends Component {
   };
 
   control = {
-    numOfPublications: this.props.items.length,
-    disabledButtonNext: false,
-    disabledButtonPrev: true,
+    lengthOfPublications: this.props.items.length,
   };
 
-  handleNextPublication = () => {
-    this.control.disabledButtonPrev = false;
-    if (this.state.indexCurrentPage === this.control.numOfPublications - 1) {
-      this.control.disabledButtonNext = true;
-      console.log(this.state.indexCurrentPage);
-    }
-    this.setState(state => ({
-      indexCurrentPage: state.indexCurrentPage + 1,
-    }));
-  };
-
-  handlePrevPublication = () => {
-    this.control.disabledButtonNext = false;
-    if (this.state.indexCurrentPage - 1 === 0) {
-      this.control.disabledButtonPrev = true;
-    }
-    this.setState(state => ({
-      indexCurrentPage: state.indexCurrentPage - 1,
-    }));
+  handleTogglePublications = e => {
+    e.currentTarget.name === 'next'
+      ? this.setState(state => ({
+          indexCurrentPage: state.indexCurrentPage + 1,
+        }))
+      : this.setState(state => ({
+          indexCurrentPage: state.indexCurrentPage - 1,
+        }));
   };
 
   render() {
     const { indexCurrentPage } = this.state;
-    const {
-      disabledButtonPrev,
-      disabledButtonNext,
-      numOfPublications,
-    } = this.control;
+    const { lengthOfPublications } = this.control;
     return (
       <div className="reader">
         <Controls
-          onNextPublication={this.handleNextPublication}
-          onPrevPublication={this.handlePrevPublication}
-          stateBtnPrev={disabledButtonPrev}
-          stateBtnNext={disabledButtonNext}
+          onTogglePublication={this.handleTogglePublications}
+          indexOfPage={indexCurrentPage}
+          lengthOfPublications={lengthOfPublications}
         />
         <Counter
           currentIndex={indexCurrentPage}
-          lengthOfPublications={numOfPublications}
+          lengthOfPublications={lengthOfPublications}
         />
 
         <Publication

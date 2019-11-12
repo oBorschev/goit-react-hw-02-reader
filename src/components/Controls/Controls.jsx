@@ -1,28 +1,51 @@
 import React from 'react';
 
 const Controls = ({
-  onPrevPublication,
-  onNextPublication,
-  stateBtnNext,
-  stateBtnPrev,
+  onTogglePublication,
+  indexOfPage,
+  lengthOfPublications,
 }) => (
   <section className="controls">
-    <button
-      type="button"
-      className="button"
-      onClick={onPrevPublication}
-      disabled={stateBtnPrev}
-    >
-      Назад
-    </button>
-    <button
-      type="button"
-      className="button"
-      onClick={onNextPublication}
-      disabled={stateBtnNext}
-    >
-      Вперед
-    </button>
+    {indexOfPage === 1 ? (
+      <button
+        type="button"
+        className="button"
+        name="previous"
+        onClick={onTogglePublication}
+        disabled={true}
+      >
+        Назад
+      </button>
+    ) : (
+      <button
+        type="button"
+        className="button"
+        name="previous"
+        onClick={onTogglePublication}
+      >
+        Назад
+      </button>
+    )}
+    {indexOfPage === lengthOfPublications ? (
+      <button
+        type="button"
+        className="button"
+        name="next"
+        onClick={onTogglePublication}
+        disabled={true}
+      >
+        Вперед
+      </button>
+    ) : (
+      <button
+        type="button"
+        className="button"
+        name="next"
+        onClick={onTogglePublication}
+      >
+        Вперед
+      </button>
+    )}
   </section>
 );
 
