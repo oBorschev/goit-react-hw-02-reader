@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import Controls from '../Controls/Controls';
 import Counter from '../Counter/Counter';
 import Publication from '../Publication/Publication';
+import styles from './Reader.module.css';
 
 export default class Reader extends Component {
   static propTypes = {
@@ -19,20 +20,21 @@ export default class Reader extends Component {
   };
 
   handleTogglePublications = e => {
-    e.currentTarget.name === 'next'
-      ? this.setState(state => ({
-          indexCurrentPage: state.indexCurrentPage + 1,
-        }))
-      : this.setState(state => ({
-          indexCurrentPage: state.indexCurrentPage - 1,
-        }));
+    const button = e.currentTarget.name;
+    this.setState(state => {
+      if (button === 'next') {
+        return { indexCurrentPage: state.indexCurrentPage + 1 };
+      } else {
+        return { indexCurrentPage: state.indexCurrentPage - 1 };
+      }
+    });
   };
 
   render() {
     const { indexCurrentPage } = this.state;
     const { lengthOfPublications } = this.control;
     return (
-      <div className="reader">
+      <div className={styles.reader}>
         <Controls
           onTogglePublication={this.handleTogglePublications}
           indexOfPage={indexCurrentPage}
