@@ -6,8 +6,6 @@ const Controls = ({
   indexOfPage,
   lengthOfPublications,
 }) => {
-  const desadledPrev = indexOfPage === 1 ? true : false;
-  const desadledNext = indexOfPage === lengthOfPublications ? true : false;
   return (
     <section className={styles.controls}>
       <button
@@ -15,7 +13,7 @@ const Controls = ({
         className={styles.button}
         name="previous"
         onClick={onTogglePublication}
-        disabled={desadledPrev}
+        disabled={indexOfPage === 1}
       >
         Назад
       </button>
@@ -24,7 +22,7 @@ const Controls = ({
         className={styles.button}
         name="next"
         onClick={onTogglePublication}
-        disabled={desadledNext}
+        disabled={indexOfPage === lengthOfPublications}
       >
         Вперед
       </button>
@@ -33,48 +31,3 @@ const Controls = ({
 };
 
 export default Controls;
-
-{
-  /* <section className="controls">
-    {indexOfPage === 1 ? (
-      <button
-        type="button"
-        className="button"
-        name="previous"
-        onClick={onTogglePublication}
-        disabled={true}
-      >
-        Назад
-      </button>
-    ) : (
-      <button
-        type="button"
-        className="button"
-        name="previous"
-        onClick={onTogglePublication}
-      >
-        Назад
-      </button>
-    )}
-    {indexOfPage === lengthOfPublications ? (
-      <button
-        type="button"
-        className="button"
-        name="next"
-        onClick={onTogglePublication}
-        disabled={true}
-      >
-        Вперед
-      </button>
-    ) : (
-      <button
-        type="button"
-        className="button"
-        name="next"
-        onClick={onTogglePublication}
-      >
-        Вперед
-      </button>
-    )}
-  </section> */
-}

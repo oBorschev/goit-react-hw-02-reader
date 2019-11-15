@@ -15,24 +15,24 @@ export default class Reader extends Component {
     indexCurrentPage: 1,
   };
 
-  control = {
-    lengthOfPublications: this.props.items.length,
-  };
-
   handleTogglePublications = e => {
     const button = e.currentTarget.name;
     this.setState(state => {
-      if (button === 'next') {
-        return { indexCurrentPage: state.indexCurrentPage + 1 };
-      } else {
-        return { indexCurrentPage: state.indexCurrentPage - 1 };
-      }
+      return button === 'next'
+        ? {
+            indexCurrentPage: state.indexCurrentPage + 1,
+          }
+        : {
+            indexCurrentPage: state.indexCurrentPage - 1,
+          };
     });
   };
 
   render() {
     const { indexCurrentPage } = this.state;
-    const { lengthOfPublications } = this.control;
+    const lengthOfPublications = this.props.items.length;
+    const articleIndex = this.props.items[indexCurrentPage - 1];
+
     return (
       <div className={styles.reader}>
         <Controls
@@ -46,8 +46,8 @@ export default class Reader extends Component {
         />
 
         <Publication
-          publicationTitle={this.props.items[indexCurrentPage - 1].title}
-          publicationText={this.props.items[indexCurrentPage - 1].text}
+          publicationTitle={articleIndex.title}
+          publicationText={articleIndex.text}
         />
       </div>
     );
