@@ -15,17 +15,13 @@ export default class Reader extends Component {
     indexCurrentPage: 1,
   };
 
-  handleTogglePublications = e => {
-    const button = e.currentTarget.name;
-    this.setState(state => {
-      return button === 'next'
-        ? {
-            indexCurrentPage: state.indexCurrentPage + 1,
-          }
-        : {
-            indexCurrentPage: state.indexCurrentPage - 1,
-          };
-    });
+  handleTogglePublications = ({ currentTarget: { name } }) => {
+    this.setState(state => ({
+      indexCurrentPage:
+        name === 'next'
+          ? state.indexCurrentPage + 1
+          : state.indexCurrentPage - 1,
+    }));
   };
 
   render() {
